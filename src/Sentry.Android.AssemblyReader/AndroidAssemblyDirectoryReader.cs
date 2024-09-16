@@ -36,7 +36,11 @@ internal sealed class AndroidAssemblyDirectoryReader : AndroidAssemblyReader, IA
 
     private ZipArchiveEntry? FindAssembly(string name)
     {
+#if UNITY_ANDROID_PLAYER
+        var zipEntry = ZipArchive.GetEntry($"/assets/bin/Data/Managed/{name}");
+#else
         var zipEntry = ZipArchive.GetEntry($"assemblies/{name}");
+#endif
 
         if (zipEntry is null)
         {
